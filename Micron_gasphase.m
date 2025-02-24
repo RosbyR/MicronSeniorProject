@@ -33,7 +33,8 @@ function dCdt = silaneDiffusionODE(~, C, k1, R, T, P, delta, D_SiH4, D_Si, D_H2)
     dCdt(2) = k1 * SiH4_g;       % d[Si_g]/dt = +k1 * [SiH4_g]
     dCdt(3) = 2 * k1 * SiH4_g;   % d[H2_g]/dt = +2 * k1 * [SiH4_g]
 
-    % Diffusion into Boundary Layer (Fick's Law)
+    % Diffusion into Boundary Layer (Fick's Law)   
+    %**Unsure if fick's law is what we want so it can be a placeholder
     dCdt(4) = (D_SiH4 / delta) * (SiH4_g - SiH4_b) * (P / (R * T));  % SiH4_b
     dCdt(5) = (D_Si / delta) * (Si_g - Si_b) * (P / (R * T));        % Si_b
     dCdt(6) = (D_H2 / delta) * (H2_g - H2_b) * (P / (R * T));        % H2_b

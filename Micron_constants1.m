@@ -5,7 +5,8 @@ function [R, T, k1, SiH4_conc, tspan, P, delta, D_SiH4, D_Si, D_H2] = Micron_con
     % System Conditions
     T = 273 + 600;        % Temperature (K)
     P = 66.6612;      % Pressure (Pa)
-    delta = 1e-4;    % Boundary layer thickness (m)
+    delta = 1e-4;    % Boundary layer thickness (m)  
+    %**No Idea if this is a reasonable boundary layer
     
     % Reaction Rate Constants
     k1 = 1e5;        % Rate constant for SiH4 decomposition (1/s)
