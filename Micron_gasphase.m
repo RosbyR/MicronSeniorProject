@@ -1,12 +1,15 @@
 function [SiH4_b, SiH2_b, H2_b] = Micron_gasphase()
 % Retrieve constants
-[R, T, k1, SiH4_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H2] = Micron_constants1();
+[R, T, E_decom, A_decom, SiH4_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H2] = Micron_constants1();
 
 % Initial conditions: [SiH4_g, Si_g, H2_g, SiH4_b, Si_b, H2_b]
-C0 = [SiH4_conc; 0; 0; 0; 0; 0];  
-
+C0 = [SiH4_conc; 0; 0; 0; 0; 0]; 
+%Decomposition Arrhenious
+k1  = A_decom  * exp(-E_decom  / (R*T))
 % Solve ODE system
 [t, C] = ode45(@(t, C) silaneDiffusionODE(t, C, k1, R, T, P, delta, D_SiH4, D_SiH2, D_H2), tspan, C0);
+
+
 
 % Display final concentrations in the boundary layer
 disp('Final concentrations in the boundary layer:');
@@ -35,7 +38,7 @@ function dCdt = silaneDiffusionODE(~, C, k1, R, T, P, delta, D_SiH4, D_SiH2, D_H
     dCdt(3) = 2 * k1 * SiH4_g;   % d[H2_g]/dt = +2 * k1 * [SiH4_g]
 
     % Diffusion into Boundary Layer (Fick's Law)   
-    %**Unsure if fick's law is what we want so it can be a placeholder
+  
     dCdt(4) = (D_SiH4 / delta) * (SiH4_g - SiH4_b) * (P / (R * T));  % SiH4_b
     dCdt(5) = (D_SiH2 / delta) * (SiH2_g - SiH2_b) * (P / (R * T));        % SiH2_b
     dCdt(6) = (D_H2 / delta) * (H2_g - H2_b) * (P / (R * T));        % H2_b
