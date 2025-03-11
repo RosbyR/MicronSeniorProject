@@ -1,11 +1,11 @@
 function [SiH4_b, SiH2_b, H2_b] = Micron_gasphase()
 % Retrieve constants
-[R, T, E_decom, A_decom, SiH4_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H2] = Micron_constants1();
+[R, T, E_decom, A_decom, SiH4_conc, H2_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H2] = Micron_constants1();
 
 % Initial conditions: [SiH4_g, Si_g, H2_g, SiH4_b, Si_b, H2_b]
-C0 = [SiH4_conc; 0; 0; 0; 0; 0]; 
+C0 = [SiH4_conc; 0; H2_conc; 0; 0; 0]; 
 %Decomposition Arrhenious
-k1  = A_decom  * exp(-E_decom  / (R*T))
+k1  = A_decom  * exp(-E_decom  / (R*T));
 % Solve ODE system
 [t, C] = ode45(@(t, C) silaneDiffusionODE(t, C, k1, R, T, P, delta, D_SiH4, D_SiH2, D_H2), tspan, C0);
 

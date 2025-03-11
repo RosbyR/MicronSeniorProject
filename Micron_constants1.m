@@ -1,5 +1,6 @@
-function[R, T, E_decom, A_decom, SiH4_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H2, ...
- A_SiH4, E_SiH4, A_SiH2, E_SiH2, A_H2des, E_H2des, A_SiH2_growth, E_SiH2_growth, Rad, A, Thick, DS, MMs] = Micron_constants1();
+function[R, T, E_decom, A_decom, SiH4_conc, H2_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H2, ...
+ A_SiH4, E_SiH4, A_SiH2, E_SiH2, A_H2des, E_H2des, A_SiH2_growth, E_SiH2_growth, Rad, A, Thick,...
+ DS, MMs, Ratio] = Micron_constants1();
 
 %Assumptions
 %Uniform Heat Distribution, Ideal Gas Law, Surface Limited Diffusion,
@@ -26,15 +27,16 @@ function[R, T, E_decom, A_decom, SiH4_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H
     
     
     % Initial Concentrations 
-    SiH4_conc = .010; %mol/m^3
+    SiH4_conc = .10; %mol/m^3
+    H2_conc = 10; %mol/m^3
     
     % Time Span
-    tspan = [0, 60]; % Time span for reaction (seconds)
+    tspan = [0, 200]; % Time span for reaction (seconds)
 
     % Diffusivities 
-    D_SiH4 = 1e-2; %boundary layer
-    D_SiH2 = 5e-2;
-    D_H2   = 7e-2;
+    D_SiH4 = 4; %boundary layer
+    D_SiH2 = 5;
+    D_H2   = 1;
 
     % Surface adsorption constants: DOI:10.1088/0268-1242/6/4/009 
     A_SiH4 = 38; %K in units of kmol^-1 m^3
@@ -57,4 +59,7 @@ function[R, T, E_decom, A_decom, SiH4_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H
     Thick = 1000; %Film Thickness in Angstroms
     DS = 2330; % Silane Density in Kg/M^3
     MMs = 28.085; % Molar Mass Silane in g/Mol
+    Ratio = H2_conc / SiH4_conc;
+
+
 end
