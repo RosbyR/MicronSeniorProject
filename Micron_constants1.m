@@ -1,65 +1,67 @@
+
 function[R, T, E_decom, A_decom, SiH4_conc, H2_conc, tspan, P, delta, D_SiH4, D_SiH2, D_H2, ...
  A_SiH4, E_SiH4, A_SiH2, E_SiH2, A_H2des, E_H2des, A_SiH2_growth, E_SiH2_growth, Rad, A, Thick,...
- DS, MMs, Ratio] = Micron_constants1();
+ DS, MMs, Ratio, A_tot, A_dep_SiH4, E_dep_SiH4, A_dep_growth, E_dep_growth, ...
+ SiH4_sccm, V_chamber, F_in] = Micron_constants1()
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Assumptions
-%Uniform Heat Distribution, Ideal Gas Law, Surface Limited Diffusion,
-%Uniform Film Thickness, Constant Boundary Layer Thickness, Constant
-%Temperature, Constant Pressure, Gas Phase Concentration >> Boundary Layer,
-%Assuming Fick's First Law for diffusion, 
-
-
-
-
-
-% Universal Gas Constant
-    R = 8.314;       % J/(mol*K) **
+%Ideal Gas, Uniform boundary layer, uniform temperature, constant pressure
+%Steady State except for surface growth, 20% Loss to walls of reactor,
+%Surface Limited Diffusion, 
+    % Universal Gas Constant
+    R = 8.314;       % J/(mol*K)
     
     % System Conditions
     T = 273 + 600;        % Temperature (K)
-    P = 66.6612;      % Pressure (Pa)
-    delta = 1e-1;    % Boundary layer thickness (m)  
+    P = 1;          % Pressure (Pa)
+    delta = .005;       % Boundary layer thickness (m)
     
-    % Gas Phase Constants    Journal of Chemical Physics
-    %Gordon, M. S., Gano, D. R., Binkley, J. S., & Frisch, M. J. (1985). Thermal decomposition of silane. Journal of the American Chemical Society, 107(23)
-    E_decom = 209000; %Activiation Energy
-    A_decom = 1.2e15; %Pre-exponential Factor
-    
+    % Gas Phase Constants
+    E_decom = 209000;     % Activation Energy (J/mol)
+    A_decom = 1.2e15;     % Pre-exponential Factor (1/s)
     
     % Initial Concentrations 
-    SiH4_conc = .10; %mol/m^3
-    H2_conc = 10; %mol/m^3
+    SiH4_conc = 1000;   % mol/m^3
+    H2_conc = 100;        % mol/m^3
     
     % Time Span
-    tspan = [0, 200]; % Time span for reaction (seconds)
-
+    tspan = [0, 600];     % Time span for reaction (s)
+    
     % Diffusivities 
-    D_SiH4 = 4; %boundary layer
-    D_SiH2 = 5;
-    D_H2   = 1;
-
-    % Surface adsorption constants: DOI:10.1088/0268-1242/6/4/009 
-    A_SiH4 = 38; %K in units of kmol^-1 m^3
-    E_SiH4 = 58e6; 
-    A_SiH2 = 38;
-    E_SiH2 = 58e6;
-    A_H2des = 38;
-    E_H2des = 47e6;
-
-
-
-
-    %Growth Constants DOI:10.1088/0268-1242/6/4/009 
-    %K in Units of kmol m^-2 s^-1
-    A_SiH2_growth = 69; %
-    E_SiH2_growth = -158; %
-
-    Rad = 150; %Wafer Radius in MM
-    A = pi * Rad^2; %Wafer Area in MM^2
-    Thick = 1000; %Film Thickness in Angstroms
-    DS = 2330; % Silane Density in Kg/M^3
-    MMs = 28.085; % Molar Mass Silane in g/Mol
+    D_SiH4 = (1/100^2)*(9.6e-5)*(T^1.5); % m^2/s
+    D_SiH2 = (1/100^2)*(3.45e-5)*(T^1.5);
+    D_H2   = (1/100^2)*(3.45e-5)*(T^1.5);
+    
+    % Surface adsorption constants
+    A_SiH4 = 38; E_SiH4 = 58e6;
+    A_SiH2 = 38; E_SiH2 = 58e6;
+    A_H2des = 38; E_H2des = 47e6;
+    
+    % Growth Constants
+    A_SiH2_growth = 69;
+    E_SiH2_growth = -158;
+    
+    Rad = 150; % mm
+    A = pi * Rad^2; % mm^2
+    Thick = 1000; % Å
+    DS = 2330; % kg/m^3
+    MMs = 28.085; % g/mol
     Ratio = H2_conc / SiH4_conc;
+    A_m2 = A / (1000 * 1000); % m^2
+    A_tot = A_m2 * 2 * 100; % total wafer area
+    
+    A_dep_SiH4   = 50;
+    E_dep_SiH4   = 45e3;
+    A_dep_growth = 80;
+    E_dep_growth = 130e3;
 
+    % Inflow Settings
+    SiH4_sccm = 1000;                % Flow in sccm
+    V_chamber = 0.1;                 % Chamber volume in m^3
+    mol_per_sccm = 7.45e-7;          % mol/s per sccm at STP
+    F_in = SiH4_sccm * mol_per_sccm; % mol/s
 
 end
