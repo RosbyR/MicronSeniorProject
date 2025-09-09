@@ -25,8 +25,8 @@ This project was conducted in collaboration with Micron Technologies to design a
 ---
 
 ## Key Results  
-- Verified deposition rates matched experimental data within **X% error**.  
-- Identified optimal chamber conditions that improved uniformity by **Y%**.  
+- Verified deposition rates matched experimental data within 2%.  
+- Identified optimal chamber conditions with a wafer uniformity of 3% range/mean.  
 - Delivered a full design study and final recommendations to Micron engineers.  
 
 ---
