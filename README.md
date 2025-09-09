@@ -1,1 +1,2 @@
-# MicronSeniorProject
+# Micron Senior Design Project: Modeling and Optimization of a CVD Chamber for Semiconductor Manufacturing
+This project was conducted in collaboration with Micron Technologies to design and optimize a Chemical Vapor Deposition (CVD) chamber for semiconductor manufacturing. Using MATLAB-based modeling, we extracted and optimized key design variables such as pressure, temperature, precursor composition, and deposition time. The model was validated against experimental data provided by Micron, and then applied to guide design decisions for improved chamber performance.
